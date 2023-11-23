@@ -5,18 +5,18 @@ IMAGE = "https://mylostpetalert.com/wp-content/themes/mlpa-child/images/nophoto.
 db = SQLAlchemy()
 
 
-class Pet(db.model):
+class Pet(db.Model):
     """Pet to adopt"""
 
-    __talbename__ = "pets"
+    __tablename__ = "pets"
 
-    id = db.column(db.Integer, primary_key=True)
-    name= db.column(db.Text, nullable=False)
-    species = db.column(db.Text, nullable=False)
-    photo_url = db.column(db.Text)
-    age = db.column(db.Integer)
-    notes = db.column(db.Text)
-    available = db.column(db.Boolean, nullable=False, default=True)
+    id = db.Column(db.Integer, primary_key=True)
+    name= db.Column(db.Text, nullable=False)
+    species = db.Column(db.Text, nullable=False)
+    photo_url = db.Column(db.Text)
+    age = db.Column(db.Integer)
+    notes = db.Column(db.Text)
+    available = db.Column(db.Boolean, nullable=False, default=True)
 
     def image_url(self):
         """Image for the pet"""
@@ -25,7 +25,9 @@ class Pet(db.model):
     
 
 def connect_db(app):
-    db.app = app
-    db.init_app(app)
+    with app.app_context():
+     db.app = app
+     db.init_app(app)
+     db.create_all()
 
 
